@@ -1,6 +1,6 @@
 package com.cmsz.hxj.web.util;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
+//import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 public class Page{
@@ -219,6 +219,7 @@ public class Page{
 		this.numNow = numNow;
 	}
 	public String toString(){
-		return ToStringBuilder.reflectionToString(this);
+//		return ToStringBuilder.reflectionToString(this);
+		return null;
 	}
 }
