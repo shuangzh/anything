@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cmsz.hxj.web.dao.UserDao">
+	<select id="getUsers" parameterType="String" resultType="userPo">
+		SELECT * FROM t_user_info WHERE phone = #{phone};
+	</select>
+	
+	<select id="count" parameterType="String" resultType="int">
+    	SELECT COUNT(*) FROM t_user_info WHERE uid = #{uid};
+  	</select>
+	
+	<insert id="saveUser" parameterType="UserPo">
+		INSERT INTO t_user_info(uid,phone,sex,avatarURL,avatarId,itoken) VALUES(#{uid},#{phone},#{sex},#{avatarURL},#{avatarId},#{itoken});
+	</insert>
+	
+	<select id="getUserInterests" parameterType="String" resultType="java.lang.Integer">
+		SELECT interestid FROM t_user_interest WHERE uid = #{uid};
+	</select>
+	
+	<select id="getUserInterest" parameterType="UserPo" resultType="UserInterestPo">
+		select * from t_user_interest where phone=#{phone}
+	</select>
+	
+	<update	id="updateUserInfo"	parameterType="UserPo">
+		UPDATE t_user_info set phone = phone
+		<if test="name != null">
+     		 ,name=#{name}
+   		</if>
+   		<if test="sex != null">
+     		 ,sex=#{sex}
+   		</if>
+   		<if test="avatarURL != null">
+     		 ,avatarURL=#{avatarURL}
+   		</if>
+   		<if test="avatarId != null">
+     		 ,avatarId=#{avatarId}
+   		</if>
+   		where phone=#{phone}
+	</update>
+	
+	<insert	id="insertUserInterest" parameterType="UserInterestPo">
+		insert into t_user_interest(interestId, uid, phone)
+		value(#{interestId}, #{uid}, #{phone}) 
+	</insert>
+	
+	<insert id="deleteUserInterest" parameterType="UserPo">
+		delete from t_user_interest where phone=#{phone}
+	</insert>
+</mapper> 

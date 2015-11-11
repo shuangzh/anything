@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<!-- value="mssql58|mssql12|oracle|mysql|db2" -->
+	<properties>
+		<property name="dialect" value="mysql" />
+	</properties>
+
+	<settings>
+		<!-- changes from the defaults -->
+		<setting name="lazyLoadingEnabled" value="false" />
+	</settings>
+
+	<typeAliases>
+		<typeAlias alias="userPo" type="com.cmsz.hxj.web.dao.model.UserPo" /> 
+		<typeAlias alias="interestPo" type="com.cmsz.hxj.web.dao.model.InterestPo" /> 
+		<typeAlias alias="userInterestPo" type="com.cmsz.hxj.web.dao.model.UserInterestPo" /> 
+		<typeAlias alias="accumuPointsPo" type="com.cmsz.hxj.web.dao.model.AccumuPointsPo" />
+		<typeAlias alias="activityPo" type="com.cmsz.hxj.web.dao.model.ActivityPo" />
+		<typeAlias alias="activityLocationPo" type="com.cmsz.hxj.web.dao.model.ActivityLocationPo" />
+		<typeAlias alias="activityEnrollPo" type="com.cmsz.hxj.web.dao.model.ActivityEnrollPo" />
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="orm/UserMapper.xml" /> 
+		<mapper resource="orm/ActivityMapper.xml" /> 
+	</mappers>
+</configuration>

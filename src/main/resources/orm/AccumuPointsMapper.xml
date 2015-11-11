@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cmsz.hxj.web.dao.UserDao">
+  <insert id="save" parameterType="userPo" keyProperty="id">
+    INSERT INTO tUserInfo(uid,name,password,passwordStamp,idCard,phone,type,icon,nickName,email,channel,removed) 
+    VALUES(#{uid},#{name},#{password},#{passwordStamp},#{idCard},#{phone},#{type},#{icon},#{nickName},#{email},#{channel},#{removed})
+  </insert>
+  
+  <select id="count" resultType="int">
+    SELECT COUNT(*) FROM tUserInfo
+  </select>
+  
+  <select id="get" resultType="userPo" useCache="true">
+    SELECT * FROM tUserInfo 
+  </select>
+  
+  <select id="getAll" resultType="userPo">
+    SELECT * FROM tUserInfo
+  </select>
+  
+   <select id="getUserInfoByAllParam" parameterType="userPo" resultType="userPo">
+    SELECT * FROM tUserInfo
+    WHERE 1 = 1
+    <if test="uid != null">
+      and uid=#{uid}
+    </if>
+    <if test="name != null">
+      and name=#{name}
+    </if>
+    <if test="idCard != null">
+      and idCard=#{idCard}
+    </if>
+    <if test="email != null">
+      and email=#{email}
+    </if>
+    <if test="phone != null">
+      and phone=#{phone}
+    </if>
+  </select>
+  
+  <update id="updateUserInfo" parameterType="userPo">
+    UPDATE tUserInfo
+    SET uid = uid
+    <if test="name != null">
+      ,name=#{name}
+    </if>
+    <if test="password != null">
+      ,password=#{password}
+    </if>
+    <if test="passwordStamp != null">
+      ,passwordStamp=#{passwordStamp}
+    </if>
+    <if test="idCard != null">
+      ,idCard=#{idCard}
+    </if>
+    <if test="phone != null">
+      ,phone=#{phone}
+    </if>
+    <if test="type != null">
+      ,type=#{type}
+    </if>
+    <if test="icon != null">
+      ,icon=#{icon}
+    </if>
+    <if test="nickName != null">
+      ,nickName=#{nickName}
+    </if>
+    <if test="email != null">
+      ,email=#{email}
+    </if>
+    <if test="removed != null">
+      ,removed=#{removed}
+    </if>
+    WHERE uid=#{uid}
+  </update>
+  
+  <delete id="delete" parameterType="Integer">
+    DELETE FROM tUserInfo WHERE uid=#{uid}
+  </delete>
+  
+  <delete id="removeContact" parameterType="com.mama.server.main.dao.model.ContactPo">
+    DELETE FROM tContact WHERE contactId=#{contactId} and uid=#{uid}
+  </delete>
+  
+  <delete id="removeCollect" parameterType="com.mama.server.main.dao.model.CollectPo">
+    DELETE FROM tCollect WHERE houseId=#{houseId} and uid=#{uid}
+  </delete>
+  
+  <insert id="insertContact" parameterType="com.mama.server.main.dao.model.ContactPo" keyProperty="id">
+    INSERT INTO tContact(uid,name,idCard,phone,showDetail) 
+    VALUES(#{uid},#{name},#{idCard},#{phone},#{showDetail})
+  </insert>
+  
+  <update id="updateContact" parameterType="com.mama.server.main.dao.model.ContactPo">
+    UPDATE tContact set contactId = contactId
+    <if test="uid != null">
+      ,uid=#{uid}
+    </if>
+    <if test="name != null">
+      ,name=#{name}
+    </if>
+    <if test="idCard != null">
+      ,idCard=#{idCard}
+    </if>
+    <if test="phone != null">
+      ,phone=#{phone}
+    </if>
+    <if test="showDetail != null">
+      ,showDetail=#{showDetail}
+    </if>
+  </update>
+  
+  <select id="getContactByUid" resultType="com.mama.server.main.dao.model.ContactPo" useCache="true">
+    SELECT * FROM tContact WHERE uid = #{uid} 
+  </select>
+  
+  <select id="getContactByAllParam" resultType="com.mama.server.main.dao.model.ContactPo" useCache="true">
+    SELECT * FROM tContact WHERE 
+	1 = 1
+	<if test="uid != null">
+      and uid=#{uid}
+    </if>
+    <if test="name != null">
+      and name=#{name}
+    </if>
+    <if test="idCard != null">
+      and idCard=#{idCard}
+    </if>
+    <if test="phone != null">
+      and phone=#{phone}
+    </if>
+  </select>
+  
+  <insert id="insertUserCard" parameterType="com.mama.server.main.dao.model.UserCardPo" keyProperty="id">
+    INSERT INTO tUserCard(cardId,cardPassword,uid,totalRechargeAmt,totalRewardAmt,freezeAmt,availAmt,type,level,operTime,status) 
+    VALUES(#{cardId},#{cardPassword},#{uid},#{totalRechargeAmt},#{totalRewardAmt},#{freezeAmt},#{availAmt},#{type},#{level},#{operTime},#{status})
+  </insert>
+  
+  <update id="updateUserCard" parameterType="com.mama.server.main.dao.model.UserCardPo">
+    UPDATE tUserCard set cardId = cardId
+    <if test="cardPassword != null">
+      ,cardPassword=#{cardPassword}
+    </if>
+    <if test="totalRechargeAmt != null">
+      ,totalRechargeAmt=#{totalRechargeAmt}
+    </if>
+    <if test="totalRewardAmt != null">
+      ,totalRewardAmt=#{totalRewardAmt}
+    </if>
+    <if test="freezeAmt != null">
+      ,freezeAmt=#{freezeAmt}
+    </if>
+    <if test="availAmt != null">
+      ,availAmt=#{availAmt}
+    </if>
+    <if test="type != null">
+      ,type=#{type}
+    </if>
+    <if test="level != null">
+      ,level=#{level}
+    </if>
+    <if test="status != null">
+      ,status=#{status}
+    </if>
+    <if test="removed != null">
+      ,removed=#{removed}
+    </if>
+    WHERE cardId = #{cardId}
+  </update>
+  
+  <select id="getUserCardByUid" resultType="com.mama.server.main.dao.model.UserCardPo" parameterType="com.mama.server.main.dao.model.UserCardPo" useCache="true">
+    SELECT * FROM tUserCard WHERE uid = #{uid} 
+  </select>
+  
+  <insert id="insertCollect" parameterType="com.mama.server.main.dao.model.CollectPo" keyProperty="id">
+    INSERT INTO tCollect(uid,houseId,operTime) 
+    VALUES(#{uid},#{houseId},NOW())
+  </insert>
+  
+  <select id="getCollectByAllParam" parameterType="com.mama.server.main.dao.model.CollectPo" resultType="com.mama.server.main.dao.model.CollectPo">
+    SELECT * FROM tCollect
+    WHERE 1 = 1
+    <if test="uid != null">
+      and uid=#{uid}
+    </if>
+    <if test="houseId != -1">
+      and houseId=#{houseId}
+    </if>
+    <if test="removed != null">
+      and removed=#{removed}
+    </if>
+  </select>
+</mapper> 

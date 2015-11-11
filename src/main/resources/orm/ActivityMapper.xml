@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cmsz.hxj.web.dao.ActivityDao">
+	<select id="count" parameterType="String" resultType="int">
+    	SELECT COUNT(*) FROM t_activity WHERE activityid = #{activityId};
+  	</select>
+  	
+  	<insert id="insertActivity" parameterType="activityPO">
+  		insert into t_activity(activityid,uid,phone,activityName,address,beginTime,endTime,deadlinetime,
+  							imgURL,imgId,limitNum,activityType,isOpen,traceType,radius,
+  							longitude,latitude,locationnum,status,province,city) 
+  			   values (#{activityId},#{uid},#{phone},#{activityName},#{address},#{beginTime},#{endTime},#{deadlineTime},
+  					   #{imgURL},#{imgId},#{limitNum},#{activityType},#{isOpen},#{traceType},#{radius},
+  					   #{longitude},#{latitude},#{locationNum},#{status},#{province},#{city});
+  	</insert>
+  	
+  	<select id="getActivity" parameterType="String" resultType="activityPO">
+  		select * from t_activity where activityid = #{activityId}
+  	</select>
+  	
+  	<select id="getActivityByParams" parameterType="java.util.Map" resultType="activityPO">
+  		select * from t_activity where 1=1 
+  		<if test="province != null">
+  			and province = #{province} 
+  		</if>
+  		<if test="city != null">
+  			and city = #{city} 
+  		</if>
+  		<if test="activityType.size()>0">
+  			and activityType in 
+  			<foreach collection="activityType" item="activity" open="(" separator="," close=")">
+  				#{activity}
+  			</foreach>
+  		</if>
+  		<if test="status.size()>0">
+  			and status in 
+  			<foreach collection="status" item="statu" open="(" separator="," close=")">
+  				#{statu}
+  			</foreach>
+  		</if>
+  		<if test="start != null">
+  			limit #{start}
+  		</if>
+  		<if test="pageSize != null">
+  			,#{pageSize}
+  		</if>
+  	</select>
+  	
+  	<update id="updateActivityStatus" parameterType="activityPO">
+  		update t_activity set status = #{status}
+  		where activityid=#{activityId} 
+  		and uid = #{uid} 
+  		and phone = #{phone}
+  	</update>
+  	
+  	<insert id="insertActivityLocation" parameterType="activityLocationPo">
+  		insert into t_activity_locations(activityid,name,type,longitude,latitude,`desc`) values (#{activityId},#{name},#{type},#{longitude},#{latitude},#{desc});
+  	</insert>
+  	<select id="getActivityLocations" parameterType="String" resultType="activityLocationPo">
+  		select * from t_activity_locations where activityid = #{activityId}
+  	</select>
+  	
+ 
+  	
+  	<insert id="insertActivityEnroll" parameterType="activityEnrollPo">
+  		insert into t_activity_enrolls(activityid,uid,phone,enrolltime,hasinformed,joinstatus) values(#{activityId},#{uid},#{phone},#{enrollTime},#{hasinformed},#{joinstatus});
+  	</insert>
+  	<select id="getActivityEnrolls" parameterType="String" resultType="UserPo">
+  		select v.uid as uid,v.phone as phone,v.name as name,v.sex as sex,v.avatarURL as avatarURL,v.avatarId as avatarId 
+  		       from v_user_enroll_activity v 
+  		       where v.activityid = #{activityId}
+  	</select>
+  	
+  	<update id="updateActivityEnrollStatus" parameterType="activityEnrollPo">
+  		update t_activity_enrolls set joinstatus = #{joinstatus}
+  		where activityid=#{activityId}
+  		<if test="uid != null">
+  			and uid = #{uid}
+  		</if>
+  		<if test="phone != null">
+  			and phone = #{phone}
+  		</if>
+  	</update>
+  	
+</mapper> 
